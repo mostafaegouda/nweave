@@ -13,6 +13,7 @@ import { useEffect, useId, useRef, useState } from "react";
 type Props = {};
 const Card = (props: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [loadVideo, setLoadVideo] = useState(false);
   const id = useId();
   useEffect(() => {
     if (isExpanded) {
@@ -39,18 +40,42 @@ const Card = (props: Props) => {
         }}
         initial={"initial"}
         whileHover={isExpanded ? "" : "hover"}
+        onHoverStart={() => {
+          setTimeout(() => {
+            setLoadVideo(true);
+          }, 600);
+        }}
+        onHoverEnd={() => {
+          if (!isExpanded) {
+            setLoadVideo(false);
+            setTimeout(() => {
+              setLoadVideo(false);
+            }, 600);
+          }
+        }}
         animate={"initial"}
       >
         <motion.div
           layoutId={`image-${id}`}
           className="relative aspect-video rounded overflow-hidden"
         >
-          <Image
-            src="/arcane.jpg"
-            fill
-            alt="Netflix"
-            className="object-cover"
-          />
+          {!loadVideo ? (
+            <Image
+              src="/arcane.jpg"
+              fill
+              alt="Netflix"
+              className="object-cover"
+            />
+          ) : (
+            <video
+              className="absolute inset-0 w-full h-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+              src="/arcane.mp4"
+            />
+          )}
         </motion.div>
         <motion.div layoutId={`info-${id}`}>
           <motion.div
@@ -64,11 +89,7 @@ const Card = (props: Props) => {
             }}
             className="p-3 absolute w-full bg-zinc-900 space-y-3 text-xs rounded"
           >
-            {/* {isExpanded ? (
-            <CardInfoExpanded setIsExpanded={setIsExpanded} />
-          ) : ( */}
             <CardInfoHover setIsExpanded={setIsExpanded} />
-            {/* )} */}
           </motion.div>
         </motion.div>
       </motion.div>
@@ -155,23 +176,6 @@ type CardInfoExpandedProps = {
 const CardInfoExpanded = (props: CardInfoExpandedProps) => {
   return (
     <div className="">
-      {/* <div className="flex gap-2">
-        <ActionButton>
-          <PlayIcon className="w-4 h-4" />
-        </ActionButton>
-        <ActionButton>
-          <PlusIcon className="w-4 h-4" />
-        </ActionButton>
-        <ActionButton>
-          <HandThumbUpIcon className="w-4 h-4" />
-        </ActionButton>
-        <ActionButton
-          className="ml-auto"
-          onClick={() => props.setIsExpanded(true)}
-        >
-          <ChevronDownIcon className="w-4 h-4" />
-        </ActionButton>
-      </div> */}
       <div className="flex gap-1 items-center">
         <span className="text-green-400 font-semibold">92% Match</span>
         <span>2021</span>
@@ -182,30 +186,43 @@ const CardInfoExpanded = (props: CardInfoExpandedProps) => {
         </span>
       </div>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
-        laboriosam at eum velit neque, maxime dolorem enim aspernatur placeat
-        nihil totam eligendi nesciunt itaque beatae, nemo necessitatibus.
-        Cupiditate, libero obcaecati.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quisquam
+        commodi deleniti expedita, eos inventore assumenda enim iure quidem id
+        cum in officia harum? Voluptate magnam nisi libero vel aspernatur
+        facilis dolores sequi illo fugit velit tempora ex adipisci quod expedita
+        consequuntur numquam molestiae dolore, inventore hic, recusandae enim
+        impedit explicabo mollitia? Quos tenetur totam blanditiis quibusdam
+        natus illum consequuntur ipsa, veniam ex possimus odit atque ipsum. Sed
+        assumenda quas ipsa quaerat atque maxime accusantium omnis sit
+        repellendus quisquam magni beatae nulla cum odit tenetur asperiores
+        commodi, quis nihil ullam provident doloremque! Quaerat ducimus odio,
+        atque veniam rerum tempora iure!
       </p>
       <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro pariatur
-        eos deserunt aut culpa vel labore error voluptates accusantium sit, quam
-        debitis quaerat tempora dolor doloribus aliquam illum tenetur modi.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quisquam
+        commodi deleniti expedita, eos inventore assumenda enim iure quidem id
+        cum in officia harum? Voluptate magnam nisi libero vel aspernatur
+        facilis dolores sequi illo fugit velit tempora ex adipisci quod expedita
+        consequuntur numquam molestiae dolore, inventore hic, recusandae enim
+        impedit explicabo mollitia? Quos tenetur totam blanditiis quibusdam
+        natus illum consequuntur ipsa, veniam ex possimus odit atque ipsum. Sed
+        assumenda quas ipsa quaerat atque maxime accusantium omnis sit
+        repellendus quisquam magni beatae nulla cum odit tenetur asperiores
+        commodi, quis nihil ullam provident doloremque! Quaerat ducimus odio,
+        atque veniam rerum tempora iure!
       </p>
       <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro pariatur
-        eos deserunt aut culpa vel labore error voluptates accusantium sit, quam
-        debitis quaerat tempora dolor doloribus aliquam illum tenetur modi.
-      </p>
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro pariatur
-        eos deserunt aut culpa vel labore error voluptates accusantium sit, quam
-        debitis quaerat tempora dolor doloribus aliquam illum tenetur modi.
-      </p>
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro pariatur
-        eos deserunt aut culpa vel labore error voluptates accusantium sit, quam
-        debitis quaerat tempora dolor doloribus aliquam illum tenetur modi.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam quisquam
+        commodi deleniti expedita, eos inventore assumenda enim iure quidem id
+        cum in officia harum? Voluptate magnam nisi libero vel aspernatur
+        facilis dolores sequi illo fugit velit tempora ex adipisci quod expedita
+        consequuntur numquam molestiae dolore, inventore hic, recusandae enim
+        impedit explicabo mollitia? Quos tenetur totam blanditiis quibusdam
+        natus illum consequuntur ipsa, veniam ex possimus odit atque ipsum. Sed
+        assumenda quas ipsa quaerat atque maxime accusantium omnis sit
+        repellendus quisquam magni beatae nulla cum odit tenetur asperiores
+        commodi, quis nihil ullam provident doloremque! Quaerat ducimus odio,
+        atque veniam rerum tempora iure!
       </p>
     </div>
   );
